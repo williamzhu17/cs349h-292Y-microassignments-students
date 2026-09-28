@@ -11,14 +11,29 @@ class PosStochasticComputing:
         if not PosStochasticComputing.APPLY_SHIFTS:
             return bitstream
 
-        raise Exception("apply the bitshift error to the bitstream with probability 0.0001")
+        affected_bitstream = np.array(bitstream, copy=True)
+
+        for i in range(len(bitstream)):
+            if np.random.rand() < 0.0001:
+                affected_bitstream = np.concatenate([
+                    affected_bitstream[:i+1],
+                    affected_bitstream[i:-1]
+                ])
+
+        return affected_bitstream
 
     @classmethod
     def apply_bitflip(self, bitstream):
         if not PosStochasticComputing.APPLY_FLIPS:
             return bitstream
 
-        raise Exception("apply the to the bitstream with probability 0.0001")
+        affected_bitstream = np.array(bitstream, copy=True)
+
+        for i in range(len(bitstream)):
+            if np.random.rand() < 0.0001:
+                affected_bitstream[i] = 1 - affected_bitstream[i]
+
+        return affected_bitstream
 
     @classmethod
     def to_stoch(cls, prob, nbits):
