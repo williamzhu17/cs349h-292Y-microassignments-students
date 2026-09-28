@@ -20,61 +20,31 @@ class PosStochasticComputing:
 
         raise Exception("apply the to the bitstream with probability 0.0001")
 
-
-
     @classmethod
     def to_stoch(cls, prob, nbits):
         assert(prob <= 1.0 and prob >= 0.0)
 
-        bitstream = np.empty(nbits)
-
-        for i in range(0, nbits):
-            bitstream[i] = 1 if np.random.rand() < prob else 0
-
-        return bitstream
+        return np.random.binomial(1, prob, size=nbits)
 
     @classmethod
     def stoch_add(cls, bitstream, bitstream2):
         assert(len(bitstream) == len(bitstream2))
 
-        bitstream_sum = np.empty(len(bitstream))
-
-        for i in range(0, len(bitstream)):
-            select = np.random.randint(0, 2)
-            
-            if select == 0:
-                bitstream_sum[i] = bitstream[i]
-            else:
-                bitstream_sum[i] = bitstream2[i]
-
-        return bitstream_sum
+        return np.where(
+            np.random.randint(0, 2, size=len(bitstream)), 
+            bitstream, 
+            bitstream2
+        )
 
     @classmethod
     def stoch_mul(cls, bitstream, bitstream2):
         assert(len(bitstream) == len(bitstream2))
 
-        bitstream_product = np.empty(len(bitstream))
-
-        for i in range(0, len(bitstream)):
-            if bitstream[i] == 1 and bitstream2[i] == 1:
-                bitstream_product[i] = 1
-            else:
-                bitstream_product[i] = 0
-
-        return bitstream_product
+        return bitstream * bitstream2
 
     @classmethod
     def from_stoch(cls, result):
-        num_ones = 0
-        total_bits = 0
-
-        for bit in result:
-            if bit == 1:
-                num_ones += 1
-            
-            total_bits += 1
-
-        return num_ones / total_bits
+        return np.mean(result)
 
 class StochasticComputingStaticAnalysis:
 
