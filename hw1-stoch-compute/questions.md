@@ -13,11 +13,21 @@ Execute the stochastic computation for bitstream lengths 10, 100, and 1000 with 
 
 Q1. How does the mean change with increasing bitstream length? How does the variance change?
 
+The mean stays relatively the same. However, in some trials, it becomes more accurate as the bitstream length increases. Variance, however, always consistently decreases as bitstream length increases. 
+
 Q2. What is the smallest representable numeric value in a single 1000-bit stochastic bitstream? What happens when you try to generate a bitstream for this value -- do the bitstream values converge to the desired value?
+
+The smallest representable numeric value is 0.001. If I try to generate a bitstream for this value, on average, it does converge to 0.001. I ran 10k trials converting 0.001 to stoch and then back to normal numbers. I get that the mean of all the results is 0.0009977 and the std is 0.00101.
 
 Q3. What stochastic bitstream length L do we need to represent a rational number V accurately with a single bitstream, assuming V is in (0,1]? Write the equation. How does this L scale with V? Denote L' as the number bits needed to represent V accurately as an integer (removing the leading "0."). How does L' scale with V? 
 
+We can accurately represent rational number V with a single bitstream of length L = 1/V. This is not the minimum, but ensures it is representable. This L scales linearly with the inverse of V. 
+
+If we remove the leading 0., then L' = log_2(1/V). L' scales logarithmically. 
+
 Q4. Design a stochastic computation for bitstreams with a length n=1000, such that the end result is not accurately representable by a single bitstream. You must accomplish this with stochastic operations, all initial values must be >= 0.1 and every constant must be a uniquely generated bitstream.
+
+We can do (0.1)^4. We can generate four 0.1s. Then, by multiplying 0.1 four times, we should get 0.0001. With bitstreams of length n=1000, the end result should not be able to be represented. 
 
 #### Part X: Non-Idealities Stochastic Computing [2 pt/question, 6 points]
 

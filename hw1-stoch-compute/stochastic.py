@@ -168,7 +168,11 @@ def PART_Z_execute_rng_efficient_computation(value,N,save_rngs=True):
     result = PosStochasticComputing.stoch_add(tmp,x3)
     return reference_value, PosStochasticComputing.from_stoch(result)
 
-
+# Q2 trial
+# results = [PosStochasticComputing.from_stoch(PosStochasticComputing.to_stoch(0.001, 1000)) for _ in range(10000)]
+# print("Mean:", np.mean(results))
+# print("STD:", np.std(results))
+# exit()
 
 print("---- part a: effect of length on stochastic computation ---")
 ntrials = 10000
