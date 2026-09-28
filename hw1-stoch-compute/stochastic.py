@@ -25,21 +25,56 @@ class PosStochasticComputing:
     @classmethod
     def to_stoch(cls, prob, nbits):
         assert(prob <= 1.0 and prob >= 0.0)
-        raise Exception("convert a decimal value in [0,1] to an <nbit> length bitstream.")
+
+        bitstream = np.empty(nbits)
+
+        for i in range(0, nbits):
+            bitstream[i] = 1 if np.random.rand() < prob else 0
+
+        return bitstream
 
     @classmethod
     def stoch_add(cls, bitstream, bitstream2):
         assert(len(bitstream) == len(bitstream2))
-        raise Exception("add two stochastic bitstreams together")
+
+        bitstream_sum = np.empty(len(bitstream))
+
+        for i in range(0, len(bitstream)):
+            select = np.random.randint(0, 2)
+            
+            if select == 0:
+                bitstream_sum[i] = bitstream[i]
+            else:
+                bitstream_sum[i] = bitstream2[i]
+
+        return bitstream_sum
 
     @classmethod
     def stoch_mul(cls, bitstream, bitstream2):
         assert(len(bitstream) == len(bitstream2))
-        raise Exception("multiply two stochastic bitstreams together")
+
+        bitstream_product = np.empty(len(bitstream))
+
+        for i in range(0, len(bitstream)):
+            if bitstream[i] == 1 and bitstream2[i] == 1:
+                bitstream_product[i] = 1
+            else:
+                bitstream_product[i] = 0
+
+        return bitstream_product
 
     @classmethod
     def from_stoch(cls, result):
-        raise Exception("convert a stochastic bitstream to a numerical value")
+        num_ones = 0
+        total_bits = 0
+
+        for bit in result:
+            if bit == 1:
+                num_ones += 1
+            
+            total_bits += 1
+
+        return num_ones / total_bits
 
 class StochasticComputingStaticAnalysis:
 
