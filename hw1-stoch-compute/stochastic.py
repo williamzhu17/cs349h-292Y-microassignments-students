@@ -28,10 +28,8 @@ class PosStochasticComputing:
             return bitstream
 
         affected_bitstream = np.array(bitstream, copy=True)
-
-        for i in range(len(bitstream)):
-            if np.random.rand() < 0.0001:
-                affected_bitstream[i] = 1 - affected_bitstream[i]
+        flip_flag = np.random.rand(len(bitstream)) < 0.0001
+        affected_bitstream[flip_flag] = 1 - affected_bitstream[flip_flag]
 
         return affected_bitstream
 
@@ -208,6 +206,7 @@ run_stochastic_computation(lambda : PART_A_example_computation(bitstream_len=100
 PosStochasticComputing.APPLY_FLIPS = False
 PosStochasticComputing.APPLY_SHIFTS =False
 
+exit()
 
 # Part Y, apply static analysis
 print("---- part y: apply static analysis ---")
