@@ -74,10 +74,16 @@ We will use this static analysis to figure out what stochastic bistream length t
 
 Q1. Describe how your precision analysis works. Specifically, how do you propagate the precisions through the entire computation? How do you determine the final size?
 
+My precision analysis works by keeping track of the minimum precision needed throughout the entire equation. As we introduce new inputs and add operations, we keep track of each of the precisions along the way. If they reveal a new minimum precision, we will use that as the new minimum precision. After we add all the inputs and operations, we will then use the minimum precision to determine the final size. We use the equation 1/prec. 
+
 Q2. What bitstream length did your analysis return?
+
+My bitstream length analysis returned 1000 bits. 
 
 Q3. How did the random executions perform when parametrized with the analyzer-selected bitstream length?
  
+The random executions seemed to be pretty accurate with the analyzer-selected bitstream length. The trial means are pretty close and the std is relatively low.
+
 #### Part Z: Sources of Error in Stochastic Computing [2 pt/question, 4 points]
 
 Next, we will investigate the `PART_Z_execute_rng_efficient_computation` stochastic computaton. This computation implements `1/2*(x*x+x)`, and implements an optimization (`save_rngs=True`) that reuses the bitstream for x to reduce the number of random number generators.

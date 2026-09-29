@@ -62,30 +62,27 @@ class PosStochasticComputing:
 class StochasticComputingStaticAnalysis:
 
     def __init__(self):
-        pass
+        self.min_prec = 1.0
 
     def req_length(self, smallest_value):
         raise Exception("figure out the smallest bitstream length necessary represent the input decimal value. This is also called the precision.")
 
     def stoch_var(self, prec):
-        raise Exception("update static analysis -- the expression contains a variable with precision <prec>.")
-        result_prec = None
-        return result_prec
-
+        self.min_prec = min(self.min_prec, prec)
+        return prec
 
     def stoch_add(self, prec1, prec2):
-        raise Exception("update static analysis -- the expression adds together two bitstreams with precisions <prec1> and <prec2> respectively.")
-        result_prec = None
-        return result_prec
-
+        sum_prec = (prec1 + prec2) / 2
+        self.min_prec = min(self.min_prec, sum_prec)
+        return sum_prec
 
     def stoch_mul(self, prec1, prec2):
-        raise Exception("update static analysis -- the expression multiplies together two bitstreams with precisions <prec1> and <prec2> respectively.")
-        result_prec = None
-        return res_prec
+        product_prec = prec1 * prec2
+        self.min_prec = min(self.min_prec, product_prec)
+        return product_prec
 
     def get_size(self):
-        raise Exception("get minimum bitstream length required by computation.")
+        return math.ceil(1 / self.min_prec)
 
 
 
@@ -210,11 +207,11 @@ run_stochastic_computation(lambda : PART_A_example_computation(bitstream_len=100
 PosStochasticComputing.APPLY_FLIPS = False
 PosStochasticComputing.APPLY_SHIFTS =False
 
-exit()
-
 # Part Y, apply static analysis
 print("---- part y: apply static analysis ---")
 PART_Y_test_analysis()
+
+exit()
 
 # Part Z, resource efficent rng generation
 print("---- part z: one-rng optimization ---")
