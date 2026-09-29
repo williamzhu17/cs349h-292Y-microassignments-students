@@ -198,10 +198,14 @@ run_stochastic_computation(lambda : PART_A_example_computation(bitstream_len=100
 PosStochasticComputing.APPLY_FLIPS = True
 PosStochasticComputing.APPLY_SHIFTS =False
 print("---- part x: effect of bit flips ---")
+run_stochastic_computation(lambda : PART_A_example_computation(bitstream_len=10), ntrials)
+run_stochastic_computation(lambda : PART_A_example_computation(bitstream_len=100), ntrials)
 run_stochastic_computation(lambda : PART_A_example_computation(bitstream_len=1000), ntrials)
 PosStochasticComputing.APPLY_FLIPS = False
 PosStochasticComputing.APPLY_SHIFTS = True
 print("---- part x: effect of bit shifts ---")
+run_stochastic_computation(lambda : PART_A_example_computation(bitstream_len=10), ntrials)
+run_stochastic_computation(lambda : PART_A_example_computation(bitstream_len=100), ntrials)
 run_stochastic_computation(lambda : PART_A_example_computation(bitstream_len=1000), ntrials)
 PosStochasticComputing.APPLY_FLIPS = False
 PosStochasticComputing.APPLY_SHIFTS =False
