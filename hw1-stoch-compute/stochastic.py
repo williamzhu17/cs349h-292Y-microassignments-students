@@ -211,8 +211,6 @@ PosStochasticComputing.APPLY_SHIFTS =False
 print("---- part y: apply static analysis ---")
 PART_Y_test_analysis()
 
-exit()
-
 # Part Z, resource efficent rng generation
 print("---- part z: one-rng optimization ---")
 for _ in range(5):

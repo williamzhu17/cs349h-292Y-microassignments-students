@@ -90,8 +90,11 @@ Next, we will investigate the `PART_Z_execute_rng_efficient_computation` stochas
 
 Q1. Does the accuracy of the computation change when the `save_rngs` optimization is enabled? Why or why not?
 
+Yes, the accuracy of the computation worsens when the `save_rngs` optimization is enabled. This is because when we do multiplication, we are using an AND gate. If our bitstreams are all of the same, the result bitstream will just match the original bitstream, leaving the value unchanged and creating an inaccurate result. 
+
 Q2. Devise an alternate method for implementing $x*x+x$ from a single stochastic bitstream. There is a way to do this with a single (N+k)-bit bitstream, where k is a small constant value.
 
+An alternate method of doing this would be to rotate the bitstream for each x input to the stoch mul. By rotating the x inputs by k values, we can achieve different bitstreams that do not match and will not have the AND gate multiply problem. 
  
 #### Part W: Extend the Stochastic Computing Paradigm [15 points]
 
