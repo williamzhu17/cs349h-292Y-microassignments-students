@@ -105,3 +105,17 @@ Come up with your own extension, application, or analysis tool for the stochasti
 - Build an stochastic computing analysis of your choosing. You may build up the existing bitstream size analysis to work with abstract syntax trees, or you may devise a new analysis that studies some other property of the computation, such as error propagation or correlation.
 
 - Implement an application using the stochastic computing paradigm. Examples from literature include image processing, ML inference, and LDPC decoding.
+
+I implemented a simple neural net that uses bipolar stochastic computations to predit the result of an XOR operation. It has two inputs, two hidden neurons, and one output. This implementation does not do training, only inference. The weights are trained via software. 
+
+Each neuron has a weight for each input and a bias. The output also has a weight for each neurons output along with a bias. 
+
+We use multiplication and addition similar to what we discussed in class for bipolar stochastic computing. 
+
+To model tanh, we used a saturating counter that counts the bits as they come along and outputs a bit whether the count is above a certain threshold. As a result, the probability of a 1 on the output bitstream gives us a good model of tanh. 
+
+Training was done on software using PyTorch. After training, we copy the weights over to the stochastic model. 
+
+To test out our network, I ran the stochastic forward pass on 64, 128, 256, 512, and 1024 length bitstreams and compared it to a normal forward pass. I manually ran it a couple of times to see how the results would be affected by the random nature of stochastic computing. I observed that with nbits equal to 64 and 128, it often makes an incorrect prediction. However, for 256 bits and up, it rarely makes a incorrect prediction. 
+
+As a note, AI helped with figuring out how to train the network via PyTorch, as I had a bit of familiarity, but not substantial. However, all code was written by me and the stochastic inference side was completely done by myself. 
