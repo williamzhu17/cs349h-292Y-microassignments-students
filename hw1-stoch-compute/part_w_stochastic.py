@@ -1,5 +1,9 @@
 import numpy as np
 
+COUNTER_MAX = 7
+COUNTER_THRESHOLD = 4
+COUNTER_INIT = 4
+
 class BipolarStochasticComputing:
     @classmethod
     def to_stoch(cls, val, nbits):
@@ -26,3 +30,15 @@ class BipolarStochasticComputing:
     @classmethod
     def from_stoch(cls, result):
         return 2.0 * np.mean(result) - 1.0
+
+    @classmethod
+    def saturating_counter(cls, bitstream, initial_count=COUNTER_INIT):
+        count = initial_count
+        out_stream = np.empty(len(bitstream), dtype=int)
+
+        for i, bit in enumerate(bitstream):
+            count = min(COUNTER_MAX, count + 1) if bit else max(0, count - 1)
+            out_stream[i] = 1 if count >= COUNTER_THRESHOLD else 0
+
+        return out_stream
+
