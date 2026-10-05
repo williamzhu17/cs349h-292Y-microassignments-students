@@ -67,6 +67,15 @@ class BipolarStochasticComputing:
 
         return out_stream
 
+def ideal_forward(x, params):
+    W, b, v, b_o = params["W"], params["b"], params["v"], params["b_o"]
+
+    h = np.tanh(4.0 * (W @ x + b) / 4.0)
+    s = (np.dot(v, h) + b_o) / 4.0
+    pred = 1 if s > 0 else 0
+
+    return pred, s
+
 def stoch_forward(x, params, n):
     BSC = BipolarStochasticComputing
 
@@ -105,3 +114,17 @@ def stoch_forward(x, params, n):
     pred = 1 if s > 0 else 0
 
     return pred, s
+
+if __name__ == "__main__":
+    params = TEST_PARAMS
+
+    print("ideal:")
+    for x, label in XOR_EXAMPLES:
+        pred, s = ideal_forward(x, params)
+        print(f"  x=({x[0]:+.1f},{x[1]:+.1f}) label={label}  s={s:+.4f} pred={pred}")
+
+    for n in (64, 128, 256, 512, 1024):
+        print(f"\nnbits={n}")
+        for x, label in XOR_EXAMPLES:
+            pred, s = stoch_forward(x, params, n)
+            print(f"  x=({x[0]:+.1f},{x[1]:+.1f}) label={label}  s={s:+.4f} pred={pred}")
