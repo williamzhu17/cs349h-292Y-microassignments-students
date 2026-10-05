@@ -1,7 +1,15 @@
 import numpy as np
 
 # TODO: fill these in after training on software
-NETWORK_PARAMS = {}
+TRAINED_PARAMS = {
+    "W": np.array([
+        [0.99987334, -0.9990156], 
+        [-0.9999394, 0.99882597]
+    ]),
+    "b": np.array([-0.9961624, -0.9962043]),
+    "v": np.array([0.99872833, 0.9988554]),
+    "b_o": 0.9712313413619995,
+}
 
 # Params used for initial testing
 TEST_PARAMS = {
@@ -116,7 +124,7 @@ def stoch_forward(x, params, n):
     return pred, s
 
 if __name__ == "__main__":
-    params = TEST_PARAMS
+    params = TRAINED_PARAMS
 
     print("ideal:")
     for x, label in XOR_EXAMPLES:
