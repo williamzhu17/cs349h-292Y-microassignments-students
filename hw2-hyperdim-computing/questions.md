@@ -52,7 +52,15 @@ __Task 1__: Implement the string and row encoding functions (`encode_string`, `e
 
 **Q1.** Describe how you encoded database rows as hypervectors. Write out the HD expression you used to encode each piece of information, and describe any atomic hypervectors you introduced.
 
+For each field name and value pair in the row, I first encoded the field name and value into a hypervector. If the field name or the value was not already in the codebook, we would introduce a atomic hypervector here. Afterwards, I then bound the two together to create a tuple. These created each field and value pair. 
+
+After iterating through all field name and value pairs, I then bundled them together to create the database row. 
+
 **Q2.** Describe how you decoded the strings / database rows from hypervectors. Describe any HD operations you used to isolate the desired piece of information, and describe what item memory lookups you performed to recover information. If you're taking advantage of any HD operator properties to isolate information, describe how they do so.
+
+To decode a string, I would take the hypervector form of the string. Then, I would loop through all the possible strings in the codebook and find the one that is closest hamming distance. This would then be the decoded string. 
+
+To decode a row, I iterated through all of our field names, as it would be the same amongst each row. For each field name, I would first bind the hypervector version of the field name to the row hypervector. This would undo the prior bind operation and isolate the value of that particular field. After that, I would then just do a winner takes all decode of the resulting hypervector. In theory, after unbinding the one tuple in my row, the string in the codebook that is closest in distance to this resulting hypervector should be my value of the field. I repeated this process, iterating through each of the field names. 
 
 --------
 
