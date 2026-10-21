@@ -60,7 +60,7 @@ After iterating through all field name and value pairs, I then bundled them toge
 
 To decode a string, I would take the hypervector form of the string. Then, I would loop through all the possible strings in the codebook and find the one that is closest hamming distance. This would then be the decoded string. 
 
-To decode a row, I iterated through all of our field names, as it would be the same amongst each row. For each field name, I would first bind the hypervector version of the field name to the row hypervector. This would undo the prior bind operation and isolate the value of that particular field. After that, I would then just do a winner takes all decode of the resulting hypervector. In theory, after unbinding the one tuple in my row, the string in the codebook that is closest in distance to this resulting hypervector should be my value of the field. I repeated this process, iterating through each of the field names. 
+To decode a row, I iterated through all of our field names, as it would be the same amongst each row. For each field name, I would first bind the hypervector version of the field name to the row hypervector. This would undo the prior bind operation and isolate the value of that particular field. After that, I would then just do a winner takes all decode of the resulting hypervector. In theory, after unbinding the one tuple in my row, the string in the codebook that is closest in distance to this resulting hypervector should be my value of the field. I repeated this process, iterating through each of the field names and filling out the field values. 
 
 --------
 
@@ -68,7 +68,13 @@ __Task 2__: Next, we'll implement routines for querying the data structure. Impl
 
 **Q3.** How did you implement the `get_value` query? Describe any HD operators and lookups you performed to implement this query.
 
+I implemented the get_value query by first obtaining the hypervector associated with the key. After doing so, I would decode the row. More details on how decoding the row can be found in the prior question response. 
+
 **Q4.** How did you implement the `get_matches` query? Describe any HD operators and lookups you performed to implement this query. Try using lower threshold values. How high of a distance threshold can you set before you start seeing false positives in the returned results?
+
+I implemented the get_matches by first converting the field_value_dict into a hypervector. To do this, we encoded each of the field value pairs in the query into a tuple by encoding each field name and value into a tuple and then binding them together. Once we have a hypervector for each field value pair, we would then bundle them together to create the query vector. We then use the query vector and see the hamming distance of each row in the db. If they are lower than the threshold, we have a match. 
+
+
 
 -----
 
