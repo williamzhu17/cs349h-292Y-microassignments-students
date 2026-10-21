@@ -159,4 +159,4 @@ if __name__ == '__main__':
     print(HDC.dist(hv1, hv3))
     print(HDC.dist(hv1, hv4))
 
-    study_distributions()
+    # study_distributions()

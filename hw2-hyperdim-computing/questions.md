@@ -6,7 +6,15 @@ For example "fox" would be translated to sequence ["f","o", "x"]. For simplicity
 
 **Q1.** Construct a HDC-based string encoding for the word "fox". How did you encode the "fox" string? How similar is the hypervector for "fox" to the hypervector for "box" in your encoding? How similar is the hypervector for "xfo"? How similar is the hypervector for "car"? Please remark on the relative similarities, not the absolute distances.
 
+I encoded the "fox" string by generating a unique hypervector for each letter of the english alphabet. Using these hypervectors, I was able to then construct words, like "fox" by permuting each letter's hypervector to the specific index of the word and then bundling them together. 
+
+By running the program, I see that the distance between "fox" and "box" is significantly lower than the distance between "fox" and "xfo" and "fox" and "car". Quantitatively, the distance between "fox" and "box" was 0.2407, the distance between "fox" and "xfo" was 0.5023, and the distance between "fox" and "car" was 0.5107. 
+
 **Q2.** Change your encoding so the order of the letters doesn't matter (apply the changes for this question only). What changes did you make? Please remark on the relative similarities, not the absolute distances.
+
+After changing the encoding so the order of the letters do not matter, I see that "fox" and "xfo" are now the closest. However, "fox" and "box" are still more similar than "fox" and "car". 
+
+Quantitatively, I saw the distance between "fox" and "box" was 0.2544, the distance between "fox and xfo" was 0, and the distance between "fox" and "car" was 0.5003. 
 
 -------
 
