@@ -68,7 +68,23 @@ class HDDatabase:
         return self.db.matches(query, threshold)
 
     def get_analogy(self, target_key, other_key, target_value):
-        raise Exception("analogy query")
+        target_hv = self.db.get(target_key)
+        other_hv = self.db.get(other_key)
+
+        target_field_name = self.decode_string(HDC.bind(
+            self.encode_string(target_value),
+            target_hv
+        ))
+        other_value = self.decode_string(HDC.bind(
+            self.encode_string(target_field_name),
+            other_hv
+        ))
+        distances = self.codebook.distance(HDC.bind(
+            self.encode_string(target_field_name),
+            other_hv
+        ))
+
+        return other_value, distances[other_value]
 
 
 def load_json():
@@ -155,5 +171,5 @@ if __name__ == '__main__':
     digimon_test_encoding(data, db)
     digimon_basic_queries(data, db)
     digimon_value_queries(data, db)
-    # digimon_test_encoding(data, db)
-    # analogy_query(data, db)
+    digimon_test_encoding(data, db)
+    analogy_query(data, db)

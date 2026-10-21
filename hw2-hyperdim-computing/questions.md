@@ -84,6 +84,10 @@ _Tip_: If you want more information on this type of query, you can look up "What
 
 **Q5.** How did you implement the `get_analogy` query? Describe how this is implemented using HD operators and item memory lookups. Why does your implementation work? You may want to walk through and HD operator properties you leveraged to complete this query.
 
+To implement get_analogy, I first obtained the hypervectors of both the row entries. Then, with the target row, I bound the hypervector version of the target value to the target hypervector row. This allowed me to isolate the field name of that value. Then, I used the codebook and picked the string hypervecotr that was closest to this resulting vector to figure out what the field name was. 
+
+Once I had the field name, I did the opposite. I bound the hypervector version of the field name to the other hypervector row, isolating the value information of that field. Then, I used the codebook and picked the string hypervector that was closest to this resulting vector to figure out what the value was. The distance that was computed between the closest string hypervector and the resulting hypervector was saved and returned as well. 
+
 ### Part C: Implementing an HDC Classifier [10 pts total, 2 pts/question, hdc-ml.py]
 
 Next, we will use an item memory to implement an MNIST image classifier. A naive implementation of this classifier should easily be able to get ~75% accuracy. In literature, HDC-based MNIST classifiers have been shown to achieve ~98% classification accuracy with model size of only a few bytes while being error resilient. In this exercise, you will implement the necessary encoding/decoding routines, and you will implement both the training and inference algorithms for the classifier.
