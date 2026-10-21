@@ -11,32 +11,40 @@ class HDC:
 
     @classmethod
     def rand_vec(cls):
-        raise Exception("generate atomic hypervector with size HDC.SIZE")
+        return np.random.randint(0, 2, HDC.SIZE)
 
     @classmethod
     def dist(cls, x1, x2):
-        raise Exception("Hamming distance between hypervectors")
+        return np.mean(np.bitwise_xor(x1, x2))
 
     @classmethod
     def bind(cls, x1, x2):
-        raise Exception("bind two hypervectors together")
+        return np.bitwise_xor(x1, x2)
 
     @classmethod
     def bind_all(cls, xs):
-        raise Exception("convenience function. bind together a list of hypervectors")
+        return np.bitwise_xor.reduce(xs)
 
     @classmethod
     def bundle(cls, xs):
-        raise Exception("bundle together xs, a list of hypervectors")
+        k = len(xs)
+        sum = np.add.reduce(xs)
+
+        bundled = (sum > k / 2).astype(int)
+        
+        ties = sum == k / 2
+        bundled[ties] = np.random.randint(0, 2, size=np.count_nonzero(ties))
+
+        return bundled
 
     @classmethod
     def permute(cls, x, i):
-        raise Exception("permute x by i, where i can be positive or negative")
+        return np.roll(x, i)
 
     @classmethod
     def apply_bit_flips(cls, x, p=0.0):
-        raise Exception("return a corrupted hypervector, given a per-bit bit flip probability p")
-
+        flip = np.random.rand(len(x)) < p
+        return np.bitwise_xor(x, flip.astype(int))
 
 class HDItemMem:
 
