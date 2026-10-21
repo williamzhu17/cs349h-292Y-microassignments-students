@@ -114,7 +114,21 @@ I encoded the image as a hypervector by first computing the hypervector encoding
 
 **Q3.** What happens to the classification accuracy when you reduce the hypervector size; how small of a size can you select before you see > 5% loss in accuracy? 
 
+Size 10000: 77.88%
+Size 1000: 74.25%
+Size 900: 71.25%
+Size 500: 63.13%
+Size 100: 33.75%
+
+As listed above in my experiments, we see that at around a size between 900 and 1000, we see a 5% accuaracy drop. 
+
 **Q4.** What happens to the classification accuracy when you introduce bit flips into the item memory's distance calculation? Note that you shold only apply bit flips during inference. How much error can you introduce before you see a > 5% loss in accuracy?
+
+10% bit flip rate: 75.13%
+20% bit flip rate: 71.5%
+30% bit flip rate: 60%
+
+From experiments from above, we see that we can introduce an error rate of around 20% before we see a 5% loss in accuracy
 
 ------------------------
 
