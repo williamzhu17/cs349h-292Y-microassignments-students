@@ -63,11 +63,25 @@ class MNISTClassifier:
         return im
 
     def train(self, train_data):
+        data_hv = {}
+
         for image, label in tqdm.tqdm(list(train_data)):
-            raise Exception("do something with the image, label pair from the dataset")
+            image_hv = self.encode_image(image)
+
+            if label not in data_hv:
+                data_hv[label] = []
+
+            data_hv[label].append(image_hv)
+
+        for key, hvs in data_hv.items():
+            bundled_hv = HDC.bundle(hvs)
+            self.classifier.add(key, bundled_hv)
 
     def classify(self, image):
-        raise Exception("classify an image using your classifier and return the label and distance")
+        image_hv = self.encode_image(image)
+        label = self.classifier.wta(image_hv)
+        dist = HDC.dist(self.classifier.get(label), image_hv)
+
         return label, dist
 
     def build_gen_model(self, train_data):
@@ -134,5 +148,5 @@ def test_generative_model():
 
 if __name__ == '__main__':
     test_encoding()
-    # test_classifier()
+    test_classifier()
     # test_generative_model()
