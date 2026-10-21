@@ -13,19 +13,18 @@ class MNISTClassifier:
 
     def __init__(self):
         self.classifier = HDItemMem()
-        self.i_codebook = HDCodebook()
-        self.j_codebook = HDCodebook()
+        self.coord_codebook = HDCodebook()
         self.v_codebook = HDCodebook()
 
     def encode_coord(self, i, j):
-        if not self.i_codebook.has(i):
-            self.i_codebook.add(i)
+        if not self.coord_codebook.has(i):
+            self.coord_codebook.add(i)
         
-        if not self.j_codebook.has(j):
-            self.j_codebook.add(j)
+        if not self.coord_codebook.has(j):
+            self.coord_codebook.add(j)
 
-        i_hv = self.i_codebook.get(i)
-        j_hv = self.j_codebook.get(j)
+        i_hv = self.coord_codebook.get(i)
+        j_hv = self.coord_codebook.get(j)
 
         return HDC.bind(i_hv, HDC.permute(j_hv, 1))
 
