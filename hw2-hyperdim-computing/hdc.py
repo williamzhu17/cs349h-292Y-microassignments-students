@@ -65,7 +65,14 @@ class HDItemMem:
         return key in self.item_mem
 
     def distance(self, query):
-        raise Exception("compute hamming distance between query vector and each row in item memory. Introduce bit flips if the bit flip probability is nonzero")
+        distances = {}
+
+        for key, hv in self.item_mem.items():
+            hv = HDC.apply_bit_flips(hv, self.ber)
+        
+            distances[key] = HDC.dist(query, hv)
+        
+        return distances
 
     def all_keys(self):
         return list(self.item_mem.keys())
@@ -74,10 +81,28 @@ class HDItemMem:
         return list(self.item_mem.values())
 
     def wta(self, query):
-        raise Exception("winner-take-all querying")
+        distances = self.distance(query)
+
+        best_key = ""
+        best_distance = -1
+
+        for key, distance in distances.items():
+            if distance < best_distance or best_distance < 0:
+                best_key = key
+                best_distance = distance
+
+        return best_key
 
     def matches(self, query, threshold=0.49):
-        raise Exception("threshold-based querying")
+        distances = self.distance(query)
+
+        matches = {}
+        
+        for key, distance in distances.items():
+            if distance < threshold:
+                matches[key] = distance
+
+        return matches
 
 
 # a codebook is simply an item memory that always creates a random hypervector
