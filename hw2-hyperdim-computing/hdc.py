@@ -92,11 +92,23 @@ class HDCodebook(HDItemMem):
 
 
 def make_letter_hvs():
-    raise Exception("return a codebook of letter hypervectors")
+    codebook = HDCodebook()
+
+    for letter in string.ascii_lowercase:
+        codebook.add(letter)
+
+    return codebook
 
 
 def make_word(letter_codebook, word):
-    raise Exception("make a word using the letter codebook")
+    letter_vecs = []
+
+    for i, letter in enumerate(word):
+        letter_vec = letter_codebook.get(letter)
+        permuted = HDC.permute(letter_vec, i)
+        letter_vecs.append(permuted)
+
+    return HDC.bundle(letter_vecs)
 
 
 def monte_carlo(fxn, trials):
