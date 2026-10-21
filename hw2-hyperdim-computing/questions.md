@@ -16,6 +16,8 @@ After changing the encoding so the order of the letters do not matter, I see tha
 
 Quantitatively, I saw the distance between "fox" and "box" was 0.2544, the distance between "fox and xfo" was 0, and the distance between "fox" and "car" was 0.5003. 
 
+To make this change, I just removed the functionality of permuting the letter vectors before bundling them. This removed any sense of position in the word. 
+
 -------
 
 **Task 2:**: Implement the bit flip error helper function (`apply_bit_flips`). Then apply bit flip errors to hypervectors before the distance calculations, where the bit flip probability is 0.10. Specifically, before computing the distance between two hypervectors hv1 and hv2, you may apply the bit flip error to one of them, say hv1. Use the `monte_carlo`, `study_distributions`, and `plot_hist_distributions` helper functions to study the distribution of distances between `fox` and `box`, compared to the distance between `fox` and `car` with and without hardware error.
