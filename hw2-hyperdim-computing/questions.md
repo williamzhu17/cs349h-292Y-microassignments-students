@@ -100,7 +100,13 @@ __Tips__: Try a simple pixel/image encoding first. For decoding operations, you 
 
 **Q1.** How did you encode pixels as a hypervector? Write out the HD expressions, and describe what atomic/basis hypervectors you used for the encodings. 
 
+To encode a pixel, I first encoded a coordinate. To encode a coordinate, I built a codebook for coordinate values so each coordinate number would get an atomic hypervector. Then to build the coordinate, I would first permute the j hypervector by 1 and then bind it with the i hypervector. This gave me a hypervector for the coordinates. 
+
+Then for the pixels, I created a new codebook for the value of the pixel. This way, the value numbers would get its own atomic hypervector. I would then take the value hypervector of the pixel and bind it with the coordinate hypervector. 
+
 **Q2.** How did you encode images as a hypervector? Write out the HD expressions, and describe any atomic/basis hypervectors in the expression. 
+
+I encoded the image as a hypervector by first computing the hypervector encoding of each pixel. Then, based on each of the pixels location, I would permute the pixel's hypervector by i*MAX + j. This way, each pixel would have a unique location. Then, I would just bundle all the permuted pixel hypervectors together. 
 
 -----------------------
 
