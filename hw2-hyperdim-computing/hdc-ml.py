@@ -13,28 +13,30 @@ class MNISTClassifier:
 
     def __init__(self):
         self.classifier = HDItemMem()
-        self.codebook = HDCodebook()
+        self.i_codebook = HDCodebook()
+        self.j_codebook = HDCodebook()
+        self.v_codebook = HDCodebook()
 
     def encode_coord(self, i, j):
-        if not self.codebook.has(i):
-            self.codebook.add(i)
+        if not self.i_codebook.has(i):
+            self.i_codebook.add(i)
         
-        if not self.codebook.has(j):
-            self.codebook.add(j)
+        if not self.j_codebook.has(j):
+            self.j_codebook.add(j)
 
-        i_hv = self.codebook.get(i)
-        j_hv = self.codebook.get(j)
+        i_hv = self.i_codebook.get(i)
+        j_hv = self.j_codebook.get(j)
 
         return HDC.bind(i_hv, HDC.permute(j_hv, 1))
 
     def encode_pixel(self, i, j, v):
-        if not self.codebook.has(v):
-            self.codebook.add(v)
+        if not self.v_codebook.has(v):
+            self.v_codebook.add(v)
 
         coord_hv = self.encode_coord(i, j)
-        v_hv = self.codebook.get(v)
+        v_hv = self.v_codebook.get(v)
 
-        return HDC.bind(coord_hv, HDC.permute(v_hv, 2))
+        return HDC.bind(coord_hv, v_hv)
 
     def encode_image(self, image):
         pixel_hvs = []
@@ -52,7 +54,7 @@ class MNISTClassifier:
 
         value_hv = HDC.bind(pixel_hv, coord_hv)
         
-        return self.codebook.wta(HDC.permute(value_hv, -2))
+        return self.v_codebook.wta(value_hv)
 
     def decode_image(self, image_hypervec):
         im = PIL.Image.new(mode="1", size=(MAX, MAX))
