@@ -6,31 +6,57 @@ class HDDatabase:
 
     def __init__(self):
         self.db = HDItemMem("db")
-        raise Exception("other instantiations here")
+        self.codebook = HDCodebook("codebook")
+        self.field_names = []
 
     def encode_string(self, value):
-        raise Exception("translate a string to a hypervector")
+        if not self.codebook.has(value):
+            self.codebook.add(value)
+        
+        return self.codebook.get(value)
 
     def decode_string(self, hypervec):
-        raise Exception("translate a hypervector to a string")
+        return self.codebook.wta(hypervec)
 
     def encode_row(self, fields):
-        raise Exception("translate a dictionary of field-value pairs to a hypervector")
+        if not self.field_names:
+            self.field_names = list(fields.keys())
+        else:
+            assert self.field_names == list(fields.keys())
+
+        key_value_hv = []
+
+        for key, value in fields.items():
+            key_hv = self.encode_string(key)
+            value_hv = self.encode_string(value)
+            key_value_hv.append(HDC.bind(key_hv, value_hv))
+
+        return HDC.bundle(key_value_hv)
 
     def decode_row(self, hypervec):
-        raise Exception("reconstruct a dictionary of field-value pairs from a hypervector.")
+        row = {}
+
+        for field_name in self.field_names:
+            field_name_hv = self.encode_string(field_name)
+            bound_hv = HDC.bind(field_name_hv, hypervec)
+            value = self.decode_string(bound_hv)
+            row[field_name] = value
+
+        return row
 
     def add_row(self, primary_key, fields):
-        raise Exception("add a database row.")
+        self.db.add(primary_key, self.encode_row(fields))
 
     def get_row(self, key):
-        raise Exception("retrieve a dictonary of field-value pairs from a hypervector row")
+        row_hv = self.db.get(key)
+        return self.decode_row(row_hv)
 
     def get_value(self, key, field):
-        raise Exception("given a primary key and a field, get the value assigned to the field")
+        row = self.get_row(key)
+        return row[field]
 
     def get_matches(self, field_value_dict, threshold=0.4):
-        raise Exception("get database entries that contain provided dictionary of field-value pairs")
+        return self.db.matches(field_value_dict, threshold)
 
     def get_analogy(self, target_key, other_key, target_value):
         raise Exception("analogy query")
