@@ -24,14 +24,14 @@ class HDDatabase:
         else:
             assert self.field_names == list(fields.keys())
 
-        key_value_hv = []
+        field_value_hv = []
 
-        for key, value in fields.items():
-            key_hv = self.encode_string(key)
+        for field, value in fields.items():
+            field_hv = self.encode_string(field)
             value_hv = self.encode_string(value)
-            key_value_hv.append(HDC.bind(key_hv, value_hv))
+            field_value_hv.append(HDC.bind(field_hv, value_hv))
 
-        return HDC.bundle(key_value_hv)
+        return HDC.bundle(field_value_hv)
 
     def decode_row(self, hypervec):
         row = {}
@@ -56,7 +56,16 @@ class HDDatabase:
         return row[field]
 
     def get_matches(self, field_value_dict, threshold=0.4):
-        return self.db.matches(field_value_dict, threshold)
+        field_value_pairs = []
+        
+        for field, value in field_value_dict.items():
+            field_hv = self.encode_string(field)
+            value_hv = self.encode_string(value)
+            field_value_pairs.append(HDC.bind(field_hv, value_hv))
+
+        query = HDC.bundle(field_value_pairs)
+
+        return self.db.matches(query, threshold)
 
     def get_analogy(self, target_key, other_key, target_value):
         raise Exception("analogy query")
