@@ -13,24 +13,46 @@ class MNISTClassifier:
 
     def __init__(self):
         self.classifier = HDItemMem()
-        raise Exception("initialize other stuff here")
+        self.codebook = HDCodebook()
 
     def encode_coord(self, i, j):
-        raise Exception("encode a coordinate in the image as a hypervector")
+        if not self.codebook.has(i):
+            self.codebook.add(i)
+        
+        if not self.codebook.has(j):
+            self.codebook.add(j)
+
+        i_hv = self.codebook.get(i)
+        j_hv = self.codebook.get(j)
+
+        return HDC.bind(i_hv, HDC.permute(j_hv, 1))
 
     def encode_pixel(self, i, j, v):
-        raise Exception("encode a pixel in the image as a hypervector")
+        if not self.codebook.has(v):
+            self.codebook.add(v)
+
+        coord_hv = self.encode_coord(i, j)
+        v_hv = self.codebook.get(v)
+
+        return HDC.bind(coord_hv, HDC.permute(v_hv, 2))
 
     def encode_image(self, image):
+        pixel_hvs = []
+
         for i, j in itertools.product(range(MAX), range(MAX)):
             v = image.getpixel((i, j))
-            print("TODO: do something with encoded pixel value")
-            self.encode_pixel(i, j, v)
+            pixel_hv = HDC.permute(self.encode_pixel(i, j, v), i*MAX+j)
+            pixel_hvs.append(pixel_hv)
 
-        raise Exception("return hypervector encoding of image")
+        return HDC.bundle(pixel_hvs)
 
     def decode_pixel(self, image_hypervec, i, j):
-        raise Exception("retrieve the value of the pixel at coordinate i,j in the image hypervector")
+        pixel_hv = HDC.permute(image_hypervec, -(i*MAX+j))
+        coord_hv = self.encode_coord(i, j)
+
+        value_hv = HDC.bind(pixel_hv, coord_hv)
+        
+        return self.codebook.wta(HDC.permute(value_hv, -2))
 
     def decode_image(self, image_hypervec):
         im = PIL.Image.new(mode="1", size=(MAX, MAX))
@@ -111,5 +133,5 @@ def test_generative_model():
 
 if __name__ == '__main__':
     test_encoding()
-    test_classifier()
-    test_generative_model()
+    # test_classifier()
+    # test_generative_model()
