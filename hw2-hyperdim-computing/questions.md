@@ -24,7 +24,13 @@ To make this change, I just removed the functionality of permuting the letter ve
 
 **Q3.** Try modifying the hardware error rate (`perr`) with fixed hypervector size `10000`. How high can you make the hardware error until the two distributions begin to become visibly indistinguishable? What does it mean conceptually when the two distance distributions have a lot of overlap?
 
+Starting at around a perr of 0.45, we start to see the distributions overlap. At around a perr of 0.5, it is very hard to visible distibuguish the two distributions. 
+
+When the two distance distributions have a lot of overlap, this means that the hypervectors are starting to have a lot more noise from the bitflips and lose the similarity/difference signals that the bundling of the permuted letter hypervectors had. 
+
 **Q4.** Try modifying the hypervector size (`SIZE`) with fixed hardware error rate `0.10`. How small can you make the word hypervectors before the two distributions begin to become visibly indistinguishable?
+
+There starts to be overlap when SIZE is around 100. At 10, the distributions start to become visible indistinguishable. 
 
 -----
 

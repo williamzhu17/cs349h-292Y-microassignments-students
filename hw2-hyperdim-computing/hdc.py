@@ -133,7 +133,14 @@ def plot_dist_distributions(key1, dist1, key2, dist2):
 
 def study_distributions():
     def gen_codebook_and_words(w1, w2, prob_error=0.0):
-        raise Exception("encode words and compute distance")
+        letter_cb = make_letter_hvs()
+
+        hv1 = make_word(letter_cb, w1)
+        hv1_flipped = HDC.apply_bit_flips(hv1, prob_error)
+
+        hv2 = make_word(letter_cb, w2)
+
+        return HDC.dist(hv1_flipped, hv2)
 
     trials = 1000
     d1 = monte_carlo(lambda: gen_codebook_and_words("fox", "box"), trials)
@@ -159,4 +166,4 @@ if __name__ == '__main__':
     print(HDC.dist(hv1, hv3))
     print(HDC.dist(hv1, hv4))
 
-    # study_distributions()
+    study_distributions()
