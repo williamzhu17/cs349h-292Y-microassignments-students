@@ -74,7 +74,7 @@ I implemented the get_value query by first obtaining the hypervector associated 
 
 I implemented the get_matches by first converting the field_value_dict into a hypervector. To do this, we encoded each of the field value pairs in the query into a tuple by encoding each field name and value into a tuple and then binding them together. Once we have a hypervector for each field value pair, we would then bundle them together to create the query vector. We then use the query vector and see the hamming distance of each row in the db. If they are lower than the threshold, we have a match. 
 
-
+At a threshold of around 0.45, I started seeing false positives in the returned results. 
 
 -----
 
