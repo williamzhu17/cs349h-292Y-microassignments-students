@@ -141,3 +141,5 @@ From experiments from above, we see that we can introduce an error rate of aroun
 You can find a sample of generated image `sample_generated.png` for number `7` in the folder.
 
 **Q5.** Use `test_generative_model` function to test your generative model. Include a few pictures outputted by your generative model in your submission.
+
+I have attached images of runs with different trial numbers. It is formatted as {number}_t{trial_num}_generated.png. It seems that increasing the trial number did not help decrease the noise.

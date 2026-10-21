@@ -86,12 +86,29 @@ class MNISTClassifier:
 
     def build_gen_model(self, train_data):
         self.gen_model = {}
+        data_hv = {}
+
         for image, label in tqdm.tqdm(list(train_data)):
-            raise Exception("build generative model")
+            image_hv = self.encode_image(image)
+
+            if label not in data_hv:
+                data_hv[label] = []
+            
+            data_hv[label].append(image_hv)
+
+        for key, hvs in data_hv.items():
+            sum = np.add.reduce(hvs)
+            self.gen_model[key] = sum / len(hvs)
 
     def generate(self, cat, trials=10):
         gen_hv = self.gen_model[cat]
-        raise Exception("generate random image with label <cat> using generative model. Average over <trials> trials.")
+
+        samples = []
+
+        for i in range(trials):
+            samples.append(np.random.binomial(1, gen_hv))
+
+        return self.decode_image(HDC.bundle(samples))
 
 
 def initialize(N=1000):
@@ -149,4 +166,4 @@ def test_generative_model():
 if __name__ == '__main__':
     test_encoding()
     test_classifier()
-    # test_generative_model()
+    test_generative_model()
