@@ -37,6 +37,7 @@ As part of my FirstArrival gate, I maintained a seen state. This is a flag that 
 
 2. Implement the reset and execute functions for the last arrival (`LastArrival`) gate. Describe any internal state maintained by the gate, and what the reset operation and execution functions do for this gate. Uncomment the `test_last_arrival_gate` function in `delay_tester.py` to test the operation of the last arrival gate.
 
+Similar to the prior gate, the only internal state I maintained was a seen flag. This flag will raise when we see the first pulse. With this, we can differentiate between the first and second pulse and only output a pulse when the seen flag is high. However, there is an edge case when we have a pulse at the same time. When this happen, we just output a pulse. 
 
 3. Implement the reset and execute functions for the delay (`Delay`) gate. Describe any internal state maintained by the gate, and what the reset operation and execution functions do for this gate. Uncomment the `test_delay_gate` function in `delay_tester.py` to test the operation of the delay gate. What does the circuit described in the `test_delay_gate` function do to the input value? 
 

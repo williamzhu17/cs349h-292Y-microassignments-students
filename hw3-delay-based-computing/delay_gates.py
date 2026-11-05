@@ -42,14 +42,23 @@ class LastArrival(Gate):
         Gate.__init__(self, "LA", ["A", "B"])
 
     def reset(self):
-        raise NotImplementedError
+        self.seen = False
 
     def execute(self, time, inputs):
         in0, in1 = inputs["A"], inputs["B"]
-        raise NotImplementedError
-        # return PULSE
-        return NO_PULSE
 
+        pulse = in0 == PULSE or in1 == PULSE
+        both_pulse = in0 == PULSE and in1 == PULSE
+
+        if both_pulse:
+            return PULSE
+
+        if pulse and self.seen:
+            return PULSE
+
+        self.seen = True if pulse else self.seen
+
+        return NO_PULSE
 
 class FirstArrival(Gate):
 

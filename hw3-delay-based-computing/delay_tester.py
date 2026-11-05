@@ -88,6 +88,6 @@ def test_inh_gate():
 
 test_input()
 test_first_arrival_gate()
-#test_last_arrival_gate()
+test_last_arrival_gate()
 #test_inh_gate()
 #test_delay_gate()
