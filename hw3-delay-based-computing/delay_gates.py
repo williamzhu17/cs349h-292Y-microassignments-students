@@ -84,13 +84,34 @@ class Inhibition(Gate):
 
     def __init__(self):
         Gate.__init__(self, "INH", ["A", "B"])
+        self.seen_a = False
+        self.seen_b = False
+        self.suppress = False
 
     def reset(self):
-        raise NotImplementedError
+        self.seen_a = False
+        self.seen_b = False
+        self.suppress = False
 
     def execute(self, time, inputs):
         inA, inB = inputs["A"], inputs["B"]
-        raise NotImplementedError
+
+        if inA == PULSE:
+            self.seen_a = True
+
+        if inB == PULSE:
+            self.seen_b = True
+
+        if self.seen_a and not self.seen_b:
+            self.suppress = True
+
+        # Edge case for both pulses arriving at same time
+        if inA == PULSE and inB == PULSE:
+            return PULSE if random.random() < 0.5 else NO_PULSE
+
+        if inB == PULSE and not self.suppress:
+            return PULSE
+
         return NO_PULSE
 
 
