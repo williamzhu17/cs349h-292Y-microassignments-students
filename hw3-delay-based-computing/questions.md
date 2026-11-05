@@ -90,6 +90,8 @@ The or gate will be the opposite of the and gate. For the Rp case, we know that 
 
 3. Implement the `not` gate using delay logic. How did you implement this gate?
 
+To implement the not gate, we just simply use delay gates and wire the Ap to output to Rn through a delay and wire the An to output to Rp. This just flips the bit. 
+
 4. Implement the digital readout gate in `delay_gates.py` (see class `DigitalReadOutGate`). This gate should remember if it saw a pulse or not.
 
 5. Execute the completed implementation on a few digital values. What delay-based encoding does a digital "1" output correspond to? What delay-based encoding does the digital "0" output correspond to? What states are invalid in the current digital value encoding?

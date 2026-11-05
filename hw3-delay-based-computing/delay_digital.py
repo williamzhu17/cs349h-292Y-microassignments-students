@@ -60,7 +60,13 @@ def or_gate(circ,A,B):
 def not_gate(circ,A):
     (Ap,An) = A
     Rp,Rn = None,None
-    raise NotImplementedError 
+
+    Rp = circ.add_gate(DelayGate(0))
+    circ.add_wire(An, Rp, "A")
+
+    Rn = circ.add_gate(DelayGate(0))
+    circ.add_wire(Ap, Rn, "A")
+
     return (Rp,Rn)
 
 
