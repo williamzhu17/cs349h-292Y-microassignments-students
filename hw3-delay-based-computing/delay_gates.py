@@ -55,15 +55,21 @@ class FirstArrival(Gate):
 
     def __init__(self):
         Gate.__init__(self, "FA", ["A", "B"])
+        self.seen = False
 
     def reset(self):
-        raise NotImplementedError
+        self.seen = False
 
     def execute(self, time, inputs):
         in0, in1 = inputs["A"], inputs["B"]
-        raise NotImplementedError
-        return NO_PULSE
 
+        pulse = in0 == PULSE or in1 == PULSE
+
+        if pulse and not self.seen:
+            self.seen = True
+            return PULSE
+        
+        return NO_PULSE
 
 class Inhibition(Gate):
 

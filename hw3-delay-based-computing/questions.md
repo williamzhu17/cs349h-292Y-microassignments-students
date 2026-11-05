@@ -13,11 +13,19 @@ Execute the `delay_tester.py` file as is to investigate the behavior of delay-ba
 
 1. What does each numbered segment in the input image represent? What does it mean when a pulse (vertical line) is contained within a numbered segment?
 
+Each numbered segment in the input image represents a particular encoding of the value. When the pulse is contained within that numbered segment, that means that the pulse represents that particular encoding. For example, for IN.X.out, it's pulse is in segment 4. This means that X has a value of 4. 
+
 2. What kind of value does an earlier pulse encode, what kind of value does a later pulse encode?
+
+In this configuration, an earlier pulse encodes a smaller value while a later pulse encodes a larger value. 
 
 3. Run the simulation multiple times. Do you observe any variations in the plots from execution to execution?
 
+Yes, I observe variations in the plts from execution to execution. 
+
 4. Look at the pulse summary printed to console. How is a gate's numerical values computed from the relative delay and segment time? How is the relative delay computed from the absolute delay and the gate's settling time? The settling time for a given port is the time required for the pulse to reach a particular port.
+
+The numerical value is computed by floor(relative delay / segment time). The relative delay is computed by absolute delay - settling time. 
 
 # Part Y: Implementing the Delay Gates [8 pts]
 
