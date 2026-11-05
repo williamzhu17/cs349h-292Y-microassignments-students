@@ -96,6 +96,12 @@ To implement the not gate, we just simply use delay gates and wire the Ap to out
 
 5. Execute the completed implementation on a few digital values. What delay-based encoding does a digital "1" output correspond to? What delay-based encoding does the digital "0" output correspond to? What states are invalid in the current digital value encoding?
  
+The encoding for a digital "1" is when the positive line pulses (Xp). The encoding for a digital "0" is when the negative line pulses (Xn). The state that is invalid is if both positive and negative lines pulse or if none of them pulse. 
+
 6. Currently, the implementation creates a fresh input signal for every usage of every variable instead of re-using the input signal. Why is this necessary? What would happen if you build the same circuit, but then reuse the same input for multiple gates?
 
 7. What would happen if you don't reset the circuit between executions? Why is a circuit reset operation necessary for delay-based digital logic, but not necessary for conventional digital logic?
+
+If you do not reset the circuit between executions, we will either forget things or have flags that have been raised to high that are not lowered. For example, let's look at FirstArrived. We run an operation and now our seen flag in our FirstArrived gate is now high. If we try to run another operation without resetting, we will never be able to send a pulse through since the FirstArrived gate thinks it already saw a pulse. 
+
+This is necessary for delay-based digital logic because each foundational gate holds state. However, for conventional digital logic, there is no state being held for foundational gates, as they all evaluate combinationally. 

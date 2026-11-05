@@ -130,4 +130,5 @@ def execute_logic_circuit(dro,circ,Xbin,Ybin,Zbin):
 
 fr,circ = build_logic_circuit()
 execute_logic_circuit(fr,circ,Xbin=1,Ybin=0,Zbin=1)
-
+execute_logic_circuit(fr,circ,Xbin=1,Ybin=1,Zbin=0)
+execute_logic_circuit(fr,circ,Xbin=0,Ybin=0,Zbin=0)
