@@ -85,9 +85,42 @@ def test_inh_gate():
     circ.render("test_inh2.png",timing,traces)
     summarize_outputs(circ.get_outputs(timing,traces))
 
+def test_max():
+    circ = DelayBasedCircuit()
+    inx = circ.add_gate(Input("X"))
+    iny = circ.add_gate(Input("Y"))
+    max = circ.add_gate(LastArrival())
+    circ.add_wire(inx, max, "A")
+    circ.add_wire(iny, max, "B")
 
-test_input()
-test_first_arrival_gate()
-test_last_arrival_gate()
-test_inh_gate()
-test_delay_gate()
+    five = circ.add_gate(Input("FIVE"))
+    delay = circ.add_gate(DelayGate(0))
+    circ.add_wire(five, delay, "A")
+
+    inh = circ.add_gate(Inhibition())
+    circ.add_wire(delay, inh, "A")
+    circ.add_wire(max, inh, "B")
+
+    circ.render_circuit("test_max_circ")
+    timing, traces = circ.simulate({"X": 4, "Y": 7, "FIVE": 5})
+    circ.render("test_max1.png", timing, traces)
+    summarize_outputs(circ.get_outputs(timing, traces))
+
+    timing, traces = circ.simulate({"X": 4, "Y": 3, "FIVE": 5})
+    circ.render("test_max2.png", timing, traces)
+    summarize_outputs(circ.get_outputs(timing, traces))
+
+    timing, traces = circ.simulate({"X": 6, "Y": 7, "FIVE": 5})
+    circ.render("test_max3.png", timing, traces)
+    summarize_outputs(circ.get_outputs(timing, traces))
+
+    timing, traces = circ.simulate({"X": 2, "Y": 5, "FIVE": 5})
+    circ.render("test_max4.png", timing, traces)
+    summarize_outputs(circ.get_outputs(timing, traces))
+
+# test_input()
+# test_first_arrival_gate()
+# test_last_arrival_gate()
+# test_inh_gate()
+# test_delay_gate()
+test_max()

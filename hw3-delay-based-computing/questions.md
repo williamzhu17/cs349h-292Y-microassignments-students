@@ -60,6 +60,8 @@ You can use the `add_wire(src_gate,dst_gate,port)` function to add wires between
 
 1. What is the structure of the circuit you implemented? Include a diagram of the circuit in your writeup. [4 pts]
 
+See test_max_circ.png for the diagram of the circuit. We first find the max of X and Y by using an LA gate. The last arrived will be the larger value and we will pass this through. Then, we will use an inhibition gate with a constant 5. Thus, when max(X, Y) < 5, we will pass on max(X, Y), otherwise no pulse. Another thing to note is that we had to add a delay gate between the constant five and inhibition gate. Otherwise, it would not line up with the timing of the LA gate. 
+
 2. What if the `<` operation is replaced with `>`? What is the structure of the circuit you implemented? Include a diagram of the circuit in your writeup. [4 extra credit]
 
 Researchers have recently explored using delay-based computing in the log domain. With this method, instead of computing directly over numeric values, a value `x` is encoded into `x'=-ln(x)` as a delay (you need not worry about encoding of negative values in this question), delay-based computing is used to implement the computation, and then you raise the delay-based value `x=e^{-x'}` to recover the original value. This method can encode a broader value range using the same delay range, and obtain results faster compared to naive encoding, especially when dealing with large values.
