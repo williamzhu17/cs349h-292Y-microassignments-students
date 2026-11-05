@@ -33,6 +33,7 @@ Next, we will implement the simulations of first arrival, last arrival, delay, a
 
 1. Implement the reset and execute functions for the first arrival (`FirstArrival`) gate. Describe any internal state maintained by the gate, and what the reset operation and execution functions do for this gate. Uncomment the `test_first_arrival_gate` function in `delay_tester.py` to test the operation of the first arrival gate.
 
+As part of my FirstArrival gate, I maintained a seen state. This is a flag that turns on whenever we see the first pulse and remains high until reset. Reset lowers this flag back down. This allows us to differentiate between which pulse came first. 
 
 2. Implement the reset and execute functions for the last arrival (`LastArrival`) gate. Describe any internal state maintained by the gate, and what the reset operation and execution functions do for this gate. Uncomment the `test_last_arrival_gate` function in `delay_tester.py` to test the operation of the last arrival gate.
 
