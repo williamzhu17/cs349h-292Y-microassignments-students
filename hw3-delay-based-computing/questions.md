@@ -100,6 +100,8 @@ The encoding for a digital "1" is when the positive line pulses (Xp). The encodi
 
 6. Currently, the implementation creates a fresh input signal for every usage of every variable instead of re-using the input signal. Why is this necessary? What would happen if you build the same circuit, but then reuse the same input for multiple gates?
 
+In this implementation, it creates a fresh input signal for every usage of every variable since the DelayBasedCircuit class is not able to handle wire splitting. As a result, whenever we get an output of a gate, we can only wire it to one destination. If we try to wire it to multiple destinations, the current class will overwrite the prior wiring. 
+
 7. What would happen if you don't reset the circuit between executions? Why is a circuit reset operation necessary for delay-based digital logic, but not necessary for conventional digital logic?
 
 If you do not reset the circuit between executions, we will either forget things or have flags that have been raised to high that are not lowered. For example, let's look at FirstArrived. We run an operation and now our seen flag in our FirstArrived gate is now high. If we try to run another operation without resetting, we will never be able to send a pulse through since the FirstArrived gate thinks it already saw a pulse. 
