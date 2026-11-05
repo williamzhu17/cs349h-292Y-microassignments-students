@@ -86,6 +86,8 @@ I implemented the and gate by using a combination of both the LastArrival and Fi
 
 2. Implement the `or` gate using delay logic. How did you implement this gate?
 
+The or gate will be the opposite of the and gate. For the Rp case, we know that we need to have either Ap or Bp to have pulses. As a result, I wire the Ap and Bp into a FirstArrival gate, which passes a pulse through on the first seen pulse. For the Rn case, we need to know that both An and Bn both have pulses. As a result, I use a LastArrival gate to ensure both pulses exist before sending a pulse through. 
+
 3. Implement the `not` gate using delay logic. How did you implement this gate?
 
 4. Implement the digital readout gate in `delay_gates.py` (see class `DigitalReadOutGate`). This gate should remember if it saw a pulse or not.
