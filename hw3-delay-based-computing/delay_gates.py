@@ -117,17 +117,31 @@ class DelayGate(Gate):
     def __init__(self, delay_ns):
         Gate.__init__(self, "DEL", ["A"])
         self.delay_ns = delay_ns
-        pass
+        self.seen = False
+        self.seen_time = 0
+        self.pulsed = False
 
     def reset(self):
-        raise NotImplementedError
+        self.seen = False
+        self.seen_time = 0
+        self.pulsed = False
 
     def delay(self):
         return 1e-10
 
     def execute(self, time, inputs):
         inp = inputs["A"]
-        raise NotImplementedError
+
+        if inp == PULSE and not self.seen:
+            self.seen = True
+            self.seen_time = time
+
+        elapsed_time = time - self.seen_time
+
+        if self.seen and not self.pulsed and elapsed_time >= self.delay_ns:
+            self.pulsed = True
+            return PULSE
+
         return NO_PULSE
 
 

@@ -41,6 +41,7 @@ Similar to the prior gate, the only internal state I maintained was a seen flag.
 
 3. Implement the reset and execute functions for the delay (`Delay`) gate. Describe any internal state maintained by the gate, and what the reset operation and execution functions do for this gate. Uncomment the `test_delay_gate` function in `delay_tester.py` to test the operation of the delay gate. What does the circuit described in the `test_delay_gate` function do to the input value? 
 
+For the delay gate, the internal states I kept tracked of was a seen flag, a seen_time count, and a pulsed flag. The seen flag is to indicate when we see the pulse. When we see a pulse, we will then note down the time we saw the pulse in the seen_time count. The seen_time and seen values are then used to determine when to pulse out the delayed pulse. When we finally emit the delayed pulse out, we then raise the pulsed flag so that we do not pulse more than once.
 
 4. Implement the reset and execute functions for the inhibition (`Inhibition`) gate. If two pulses arrive at the same time (which is unlikely in practice), you can assume that the gate emits a pulse with 50% probability. Describe any internal state maintained by the gate, and what the reset operation and execution functions do for this gate. Uncomment the `test_inh_gate` function in `delay_tester.py` to test the operation of the inhibition gate.
 
