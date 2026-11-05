@@ -82,6 +82,8 @@ Move to the `delay_digital.py` file. The file uses race-based computing to execu
 
 1. Implement the `and` gate using delay logic. How did you implement this gate?
 
+I implemented the and gate by using a combination of both the LastArrival and FirstArrival gate. For the Rp case, we know that we need to have both Ap and Bp to have pulses. As a result, I wire the Ap and Bp into an LastArrival since it requires both pulses to pass a pulse through. For the Rn case, we know that as long as one An or Bn is pulsed, we need to pulse Rn. As a result, we use a FirstArrival gate since whenever we first see a pulse in An or Bn, then we will pass a pulse through. 
+
 2. Implement the `or` gate using delay logic. How did you implement this gate?
 
 3. Implement the `not` gate using delay logic. How did you implement this gate?

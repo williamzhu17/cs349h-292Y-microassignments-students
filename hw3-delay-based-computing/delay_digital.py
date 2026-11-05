@@ -28,7 +28,15 @@ def and_gate(circ,A,B):
     (Ap,An) = A
     (Bp,Bn) = B
     Rp,Rn = None,None
-    raise NotImplementedError 
+
+    Rp = circ.add_gate(LastArrival())
+    circ.add_wire(Ap, Rp, "A")
+    circ.add_wire(Bp, Rp, "B")
+
+    Rn = circ.add_gate(FirstArrival())
+    circ.add_wire(An, Rn, "A")
+    circ.add_wire(Bn, Rn, "B")
+
     return (Rp,Rn)
     
 
